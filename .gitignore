@@ -1,0 +1,45 @@
+# '.gitignore' template
+
+# compiled files
+*.pyc
+__pycache__/
+.env
+.venv
+env/
+venv/
+dist/
+doc/
+build/
+
+# config
+*.csv
+*.iml
+*.xml
+*.stl
+*.json
+
+# C extensions
+*.so
+
+# data
+*.dcm
+*.npy
+
+# model
+*.ckpt
+*.h5
+*.tf
+*.pt
+
+# logs
+log/
+*.log
+*.txt
+
+# result
+runs/
+result/
+radlib.egg-info/
+
+# wrapper
+encryption/wrapper.py
