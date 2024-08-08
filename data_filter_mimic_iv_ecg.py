@@ -6,7 +6,8 @@ import numpy as np
 import json
 import ast
 from develop_util.xls_process.xls_filter import xls_filter
-from mimic.config import *
+from mimic.config.config import *
+import icd-mappings
 
 STE_list = ['ST-T changes','ST elevation','T wave changes','','','','',]
 
