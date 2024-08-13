@@ -4,8 +4,8 @@ from logger_basic import logger
 from ast import literal_eval
 import numpy as np
 import pandas as pd
-from develop_util.xls_process.xls_filter import xls_filter
-from config.icd_config import config
+# from develop_util.xls_process.xls_filter import xls_filter
+# from config.icd_config import config
 from utils import find_uppercase_words
 
 # mimic-iv-ecg
@@ -328,6 +328,35 @@ def filter_ecg_note_from_mimic_iv_note() -> None:
     logger.info('%s patient in mimic-iv-ecg', len(subject_ids)) # 161352
     logger.info('%s ecg patient got note', np.sum(len(np.unique(ecg_note_df['subject_id'].values)))) # 146281
 
+# TODO:
+def select_ecg_eddiag_note() -> None:
+    """ 筛选同时含有 mimic-iv-ecg, ed-diag, note 的数据 """
+    # 0. prepare
+    base_dir = 'D:\\Dataset\\original_data\\ECG'
+    dataset_name= '20240801_mimics_iv'
+    sub_dataset1 = 'mimic-iv-note'
+    sub_dataset2 = 'mimic-iv-ecg-1.0'
+    file_name1 = 'note\\radiology.csv'
+    file_name2 = 'record_list.csv'
+    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_file_name = '08_ecg_note.csv'
+    # 1. 读取 mimic iv note & mimic iv ecg 列表
+    file_name1 = os.path.join(base_dir,dataset_name,sub_dataset1,file_name1)
+    note_df = pd.read_csv(file_name1)
+    file_name2 = os.path.join(base_dir,dataset_name,sub_dataset2,file_name2)
+    ecg_df = pd.read_csv(file_name2)
+    # 2. 读取 mimic iv ecg subjuct_id，并 filter note
+    subject_ids = np.unique(ecg_df['subject_id'].values)
+    ecg_note_df = note_df[np.isin(note_df['subject_id'],subject_ids)]
+    # 3. save
+    result_file  = os.path.join(result_dir,result_file_name)
+    eval_info = pd.DataFrame(ecg_note_df)
+    eval_info.to_csv(result_file, index=False)
+    logger.info('%s patient in mimic-iv-ecg', len(subject_ids)) # 161352
+    logger.info('%s ecg patient got note',
+                np.sum(len(np.unique(ecg_note_df['subject_id'].values)))) # 146281
+
+# other
 def todo() -> None:
     """
     TODO: mimic-iv-note radiology 中 exam code 与官网所述的 CPT code 不符
@@ -369,6 +398,7 @@ def temp():
     for filename in os.listdir(path_dir):
         print(filename)
 
+# main
 def mimic_iv_ecg_process():
     """ 处理 mimic_iv_ecg 数据 """
     # 1. 根据 mimic-iv-ecg-diagnostic-labels 的诊断结果的 ICD code,
@@ -394,15 +424,19 @@ def mimic_iv_ed_process():
 
 def mimic_iv_note_process():
     """ 处理 mimic_iv_note 的诊断报告 """
-    # # A1. mimic-iv-note radiology_detile, 手动整理检查项目 code
-    # arrange_diag_code_of_note()
-    # # A2. 获取全部检查项目 list
-    # filter_diag_code_of_note()
+    # A1. mimic-iv-note radiology_detile, 手动整理检查项目 code
+    arrange_diag_code_of_note()
+    # A2. 获取全部检查项目 list
+    filter_diag_code_of_note()
     # 8. 从 mimic-iv-note 中筛选与 mimic-iv-ecg 对应患者的 note
     filter_ecg_note_from_mimic_iv_note()
+    # TODO:9. 筛选同时含有 mimic-iv-ecg, ed-diag, note 的数据，未调试完
+    select_ecg_eddiag_note()
 
 if __name__ == '__main__':
-    # mimic_iv_ecg_process()
-    # mimic_iv_ed_process()
+    mimic_iv_ecg_process()
+    mimic_iv_ed_process()
     mimic_iv_note_process()
     # temp()
+
+
