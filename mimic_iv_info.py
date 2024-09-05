@@ -17,7 +17,7 @@ def get_cvd_from_ecg_diag_label() -> None:
     dataset_name= '20240801_mimics_iv'
     sub_dataset = 'mimic-iv-ecg-ext-icd-diagnostic-labels-for-mimic-iv-ecg-1.0.0'
     file_name = 'records_w_diag_icd10.csv'
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name = '01_ecg_cvd.csv'
     # 1. 读取 mimic iv ecg label 临床诊断标签 - ICD code
     file_name = os.path.join(base_dir,dataset_name,sub_dataset,file_name)
@@ -43,7 +43,7 @@ def filter_diag_beside_cvd() -> None:
     """ mimic-iv-ecg-cvd 中只保留 cvd 的 icd code 表格 """
     # 0. prepare
     file_name = '01_ecg_cvd.csv'
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name = '02_ecg_filter_cvd.csv'
     file_name = os.path.join(result_dir,file_name)
     df = pd.read_csv(file_name)
@@ -61,7 +61,7 @@ def identify_cvd_sub_class() -> None:
     """ CVD 中补充识别 缺血性心肌病(ICM)  """
     # 0. prepare
     file_name = '02_ecg_filter_cvd.csv'
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name = '03_ecg_cvd_is_icm.csv'
     file_name = os.path.join(result_dir,file_name)
     df = pd.read_csv(file_name)
@@ -86,7 +86,7 @@ def get_ed_icm_and_hosp_icm() -> None:
     """ 将缺血性心肌病(ICM)的 patient&event 筛选出来, 并按住院和急诊, 分为两个别表 """
     # 0. prepare
     file_name = '03_ecg_cvd_sub_class.csv'
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name1 = '04_ecg_ed_icm.csv'
     result_file_name2 = '04_ecg_hosp_icm.csv'
     file_name = os.path.join(result_dir,file_name)
@@ -121,7 +121,7 @@ def get_cvd_from_ed() -> None:
     # 1. 读取 ed event 数据列表, 按 icd_code 检索缺血性心肌病
     file_path = os.path.join(base_dir,dataset_name,sub_dataset,file_name)
     ed_diagnosis_df = pd.read_csv(file_path, encoding='GB18030')
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name = '05_ed_cvd.csv'
     cvd_df = {}
     for key in ed_diagnosis_df.keys():
@@ -152,7 +152,7 @@ def get_cvd_from_ed() -> None:
 def get_icm_from_cvd_ed() -> None:
     """ 从 mimic-iv-ed 数据集中, 筛选所有 CVD 患者 """
     # 0. prepare
-    base_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    base_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     file_name = '05_ed_cvd.csv'
     file_path = os.path.join(base_dir,file_name)
     cvd_df = pd.read_csv(file_path, encoding='GB18030')
@@ -185,7 +185,7 @@ def get_icm_from_cvd_ed() -> None:
 def filter_diag() -> None:
     """ 获取 icd-9、icd-10 诊断的结果 """
     # 0. prepare
-    base_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    base_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     file_name = '06_ed_icm.csv'
     result_file_name = 'A3_ed_icm_diagnosis_classes.csv'
     # 1. 读取 mimic-iv-ed-icm 数据列表
@@ -216,7 +216,7 @@ def filter_ecg_diag_from_mimic_iv_ed() -> None:
     sub_dataset2 = 'mimic-iv-ecg-1.0'
     file_name1 = 'ed\\diagnosis.csv'
     file_name2 = 'record_list.csv'
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name = '07_ecg_ed_diag.csv'
     # 1. 读取 mimic iv note & mimic iv ecg 列表
     file_name1 = os.path.join(base_dir,dataset_name,sub_dataset1,file_name1)
@@ -244,7 +244,7 @@ def arrange_diag_code_of_note() -> None:
     dataset_name= '20240801_mimics_iv'
     sub_dataset = 'mimic-iv-note'
     note_name = 'note\\radiology_detail.csv'
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name = 'A1_cpt_exam_arrange.csv'
     # 1. 读取 mimic-iv-note 数据列表
     note_file_name = os.path.join(base_dir,dataset_name,sub_dataset,note_name)
@@ -286,7 +286,7 @@ def arrange_diag_code_of_note() -> None:
 def filter_diag_code_of_note() -> None:
     """ 获取全部检查项目 list """
     # 0. prepare
-    base_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    base_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     file_name = 'A1_cpt_exam_arrange.csv'
     result_file_name = 'A2_uniqe_cpt_exam.xlsx'
     # 1. 读取 mimic-iv-note 数据列表
@@ -311,7 +311,7 @@ def filter_ecg_note_from_mimic_iv_note() -> None:
     sub_dataset2 = 'mimic-iv-ecg-1.0'
     file_name1 = 'note\\radiology.csv'
     file_name2 = 'record_list.csv'
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name = '08_ecg_note.csv'
     # 1. 读取 mimic iv note & mimic iv ecg 列表
     file_name1 = os.path.join(base_dir,dataset_name,sub_dataset1,file_name1)
@@ -338,7 +338,7 @@ def select_ecg_eddiag_note() -> None:
     sub_dataset2 = 'mimic-iv-ecg-1.0'
     file_name1 = 'note\\radiology.csv'
     file_name2 = 'record_list.csv'
-    result_dir = 'D:\\Dataset\\standardized_data\\ECG\\mimic'
+    result_dir = 'D:\\BaiduSyncdisk\\home\\DatasetAnalysisDoc\\ecg\\mimic'
     result_file_name = '08_ecg_note.csv'
     # 1. 读取 mimic iv note & mimic iv ecg 列表
     file_name1 = os.path.join(base_dir,dataset_name,sub_dataset1,file_name1)
